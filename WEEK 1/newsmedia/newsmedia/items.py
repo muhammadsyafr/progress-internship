@@ -6,7 +6,10 @@
 import scrapy
 
 
-class TutorialItem(scrapy.Item):
+class PostList(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
+    title = scrapy.Field()
+    link_url = scrapy.Field()
+    time = scrapy.Field()
+    categories = scrapy.Field()
     pass

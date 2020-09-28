@@ -1,5 +1,5 @@
 
-**Hari 1 - 3 Belajar Scrapy ( 21 Sept - 23 Sept 2020 )**
+**Hari 1 - 5 Belajar Scrapy ( 21 Sept - 25 Sept 2020 )**
 
 ## SYNTAX SCRAPY
     scrapy shell 'http://quotes.toscrape.com/page/1/' 
@@ -31,5 +31,10 @@ contoh tag untuk tombol next page / halaman
     </ul>
 
 menggunakan shell untuk mendapatkan value dari a href yg mana digunakan untuk next halaman => `response.css('li.next a').get() / response.css('li.next a::attr(href)').get()` == ambil attribut hrefnya saja yaitu /page/2
+
+**Scraping a web page**
+berhasil mengscraping beberapa konten blog di website https://mazipan.space dan http://quotes.toscrape.com/
+
+**Belajar OOP Python**
 
 
