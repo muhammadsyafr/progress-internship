@@ -12,7 +12,7 @@ class KompasSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            'https://indeks.kompas.com/?site=all&date=2020-10-02',
+            'https://indeks.kompas.com/?site=all&date=2020-10-07',
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -43,21 +43,21 @@ class KompasSpider(scrapy.Spider):
 
     def parse_detail(self, response):
             #with items
-             postList = PostList()
-             postList['title']      = response.css("h1.read__title::text").extract()
-             postList['time']       = self.time
-             postList['categories'] = self.categories
-             postList['content']    = response.css("div.read__content p::text").extract()
+            #  postList = PostList()
+            #  postList['title']      = response.css("h1.read__title::text").extract()
+            #  postList['time']       = self.time
+            #  postList['categories'] = self.categories
+            #  postList['content']    = response.css("div.read__content p::text").extract()
 
-             yield postList
+            #  yield postList
 
             #with object
-            # yield {
-            #     'title'         : response.css("h1.read__title::text").extract(),
-            #     'time'          : self.time,
-            #     'categories'    : self.categories,
-            #     'content'       : response.css("div.read__content p::text").extract(),
-            # }
+            yield {
+                'title'         : response.css("h1.read__title::text").extract(),
+                'time'          : self.time,
+                'categories'    : self.categories,
+                'content'       : response.css("div.read__content p::text").extract(),
+            }
 
 # SELECTOR   
 

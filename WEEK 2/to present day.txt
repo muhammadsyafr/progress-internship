@@ -1,0 +1,14 @@
+Coba explore strip tags
+
+Belajar OOP Python
+Scraping https://indeks.kompas.com/ dengan mengambil jumlah berita per hari / dengan detail berita setiap page
+#jelasin logic tag script nya
+
+to ask :
+1. masih penasaran sama data yang di scrap habis itu ditaro dimana ( di DB kah atau bagaimana )
+2. scraping news media itu datanya digunakan buat apa, juga
+penasaran scraping facebook, datanya digunain buat apa juga
+
+kendala apa yg dialami
+1. paling agak sedikit bosen si mas, karena referensinya dikit bgt kalo bhs indonesia, trs blm terbiasa juga blm tau mana yang benar atau slah
+2. kalau boleh dan memungkinkan untuk pindah ke frontend sih boleh aja
