@@ -7,12 +7,14 @@ class KompasSpider(scrapy.Spider):
     # today = date.today()
     # todayNews = today.strftime("%Y/%m/%d")    
     # print('HARI INIIIIIIIIIIIIIIIIIIIIIIII '+todayNews)
+    # print(type(todayNews))
     time = ''
     categories = ''
+    link_url = ''
 
     def start_requests(self):
         urls = [
-            'https://indeks.kompas.com/?site=all&date=2020-10-07',
+            'https://indeks.kompas.com/?site=all&date=2020-10-08',
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -24,15 +26,18 @@ class KompasSpider(scrapy.Spider):
             title       = post.css("div.article__list__title a::text").extract_first()
             link_url    = post.css("div.article__list__title a::attr(href)").extract_first()
             time        = post.css("div.article__list__info div.article__date::text").extract_first()
-            categories  = post.css("div.article__list__info div.article__subtitle::text").extract_first()
+            categories  = post.css("div.article__list__info div.article__subtitle::text").extract()
 
             # postList['title'] = title
             # postList['link_url'] = link_url
             # postList['time'] = time
             # postList['categories'] = categories
 
+            
             self.time = time
-            self.categories = categories
+            self.categories = "".join(categories)
+            self.link_url = link_url
+            # self.link_url = "".join(link_url)
 
             yield scrapy.Request(url=link_url+'?page=all#page2', callback=self.parse_detail)
 
@@ -43,35 +48,20 @@ class KompasSpider(scrapy.Spider):
 
     def parse_detail(self, response):
             #with items
-            #  postList = PostList()
-            #  postList['title']      = response.css("h1.read__title::text").extract()
-            #  postList['time']       = self.time
-            #  postList['categories'] = self.categories
-            #  postList['content']    = response.css("div.read__content p::text").extract()
-
-            #  yield postList
+             postList = PostList()
+             postList['title']      = response.css("h1.read__title::text").extract()
+             postList['time']       = self.time
+             postList['categories'] = self.categories
+             postList['link_url']   = self.link_url
+             postList['content']    = "".join(response.css("div.read__content p::text").extract())
+             yield postList
 
             #with object
-            yield {
-                'title'         : response.css("h1.read__title::text").extract(),
-                'time'          : self.time,
-                'categories'    : self.categories,
-                'content'       : response.css("div.read__content p::text").extract(),
-            }
+            # yield {
+            #     'title'         : response.css("h1.read__title::text").extract(),
+            #     'link_url'      : self.link_url,
+            #     'time'          : self.time,
+            #     'categories'    : self.categories,
+            #     'content'       : response.css("div.read__content p::text").extract(),
+            # }
 
-# SELECTOR   
-
-#title
-# response.css("div.article__list div a::text").extract_first()
-
-#link_url
-#response.css("div.article__list div a::attr(href)").extract_first()
-
-# time
-# response.css("div.article__list div.article__list__info div.article__date::text").extract()    
-
-#categories
-# response.css("div.article__list div.article__list__info div.article__subtitle::text").extract_first()
-
-#nextbutton if available
-# response.css("div.paging__item a.paging__link--next::attr(href)").get()

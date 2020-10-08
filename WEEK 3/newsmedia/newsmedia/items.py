@@ -12,4 +12,6 @@ class PostList(scrapy.Item):
     time        = scrapy.Field()
     categories  = scrapy.Field()
     content     = scrapy.Field()
+    link_url    = scrapy.Field()
     pass
+
