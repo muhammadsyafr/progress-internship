@@ -28,6 +28,7 @@ class NewsMediaPipeline:
         self.curr.execute("""create table tbl_news_detail(
             id int,
             title text,
+            img_url text,
             time text,
             categories text,
             tags text,
@@ -47,9 +48,10 @@ class NewsMediaPipeline:
             item['time'],
         ))
 
-        self.curr.execute("""insert into tbl_news_detail values (%s, %s, %s, %s, %s, %s)""", (
+        self.curr.execute("""insert into tbl_news_detail values (%s, %s, %s, %s, %s, %s, %s)""", (
             12121 + 122, #diganti id unique
             item['title'][0],
+            item['img'],
             item['time'],
             item['categories'],
             item['tags'],

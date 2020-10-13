@@ -57,6 +57,7 @@ class KompasSpider(scrapy.Spider):
              postList['link_url']   = self.link_url
              postList['content']    = "".join(response.css("div.read__content p::text").extract())
              postList['tags']       = ", ".join(response.css('.tag__article__wrap li a::text').extract())
+             postList['img']        = ",".join(response.css("div.js-read-article .photo img::attr(src)").extract())
 
              yield postList
 

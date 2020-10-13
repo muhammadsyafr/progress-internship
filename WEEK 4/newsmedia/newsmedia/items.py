@@ -1,5 +1,3 @@
-# Define here the models for your scraped items
-#
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
@@ -14,5 +12,6 @@ class PostList(scrapy.Item):
     content     = scrapy.Field()
     link_url    = scrapy.Field()
     tags        = scrapy.Field()
+    img         = scrapy.Field()
     pass
 
