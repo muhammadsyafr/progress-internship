@@ -4,9 +4,6 @@ from datetime import date
 
 class KompasSpider(scrapy.Spider):
     name = "kompas"
-    
-    # print('HARI INIIIIIIIIIIIIIIIIIIIIIIII '+todayNews)
-    # print(type(todayNews))
     time = ''
     categories = ''
     link_url = ''
@@ -14,7 +11,6 @@ class KompasSpider(scrapy.Spider):
     def start_requests(self):
         today = date.today()
         todayNews = today.strftime("%Y-%m-%d")    
-
         urls = [
             'https://indeks.kompas.com/?site=all&date='+ todayNews,
         ]
@@ -37,7 +33,6 @@ class KompasSpider(scrapy.Spider):
             self.time = time
             self.categories = "".join(categories)
             self.link_url = link_url
-            # self.link_url = "".join(link_url)
 
             yield scrapy.Request(url=link_url+'?page=all#page2', callback=self.parse_detail)
 
@@ -47,8 +42,6 @@ class KompasSpider(scrapy.Spider):
             yield scrapy.Request(next_page, callback=self.parse)
 
     def parse_detail(self, response):
-            # seperator = ', '
-           
             #with items
              postList = PostList()
              postList['title']      = response.css("h1.read__title::text").extract()

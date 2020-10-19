@@ -18,11 +18,12 @@ class NewsMediaPipeline:
     def create_table(self):
         self.curr.execute("""DROP TABLE IF EXISTS tbl_news""")
         self.curr.execute("""create table tbl_news(
-            id INT(99),
-            title varchar(255),
+            id int,
+            title text,
             url text,
             tanggal text
         )""")
+        self.curr.execute("""ALTER TABLE `tbl_news` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`)""")
 
         self.curr.execute("""DROP TABLE IF EXISTS tbl_news_detail""")
         self.curr.execute("""create table tbl_news_detail(
@@ -34,22 +35,23 @@ class NewsMediaPipeline:
             tags text,
             content text
         )""")
+        self.curr.execute("""ALTER TABLE `tbl_news_detail` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`)""")
+        # self.curr.execute("""ALTER TABLE `tbl_news` ADD CONSTRAINT `relation_news` FOREIGN KEY (`id`) REFERENCES `tbl_news_detail`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT""")
           
     def process_item(self, item, spider):
-        # print('WOIIIIIIIIIIIIIIIIIIIIIIIIi', type(item))
         self.store_db(item)
         return item 
     
     def store_db(self, item):
-        self.curr.execute("""insert into tbl_news values (%s, %s, %s, %s)""", (
-            12121 + 122, #diganti id unique
+        # self.curr.execute("""insert into tbl_news values (%s, %s, %s, %s)""", (
+        self.curr.execute("""INSERT into tbl_news(title, url, tanggal) VALUES(%s, %s, %s)""", (
             item['title'][0],
             item['link_url'],
             item['time'],
         ))
 
-        self.curr.execute("""insert into tbl_news_detail values (%s, %s, %s, %s, %s, %s, %s)""", (
-            12121 + 122, #diganti id unique
+        # self.curr.execute("""insert into tbl_news_detail values (%s, %s, %s, %s, %s, %s, %s)""", (
+        self.curr.execute("""INSERT into tbl_news_detail(title, img_url, time, categories, tags, content) VALUES(%s, %s, %s, %s, %s, %s)""", (
             item['title'][0],
             item['img'],
             item['time'],
@@ -59,6 +61,10 @@ class NewsMediaPipeline:
         ))
         self.conn.commit()
 
+
+
+# SQL TO CREATE FOREIGN KEY TBL NEWS DETAIL
+# ALTER TABLE `tbl_news` ADD CONSTRAINT `relation_news` FOREIGN KEY (`id`) REFERENCES `tbl_news_detail`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 
 
 
