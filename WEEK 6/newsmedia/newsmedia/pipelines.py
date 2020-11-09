@@ -11,7 +11,7 @@ class NewsMediaPipeline:
             host = 'localhost',
             user = 'root',
             passwd = '',
-            database = 'scrapy_kompas'
+            database = 'scrapy_kompas1'
         )
         self.curr = self.conn.cursor()
     
