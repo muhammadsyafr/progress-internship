@@ -19,7 +19,6 @@ class NewsMediaPipeline:
         self.curr.execute("""DROP TABLE IF EXISTS tbl_news""")
         self.curr.execute("""create table tbl_news(
             id int,
-            id_detail_news int,
             title text,
             url text,
             tanggal text
@@ -29,6 +28,7 @@ class NewsMediaPipeline:
         self.curr.execute("""DROP TABLE IF EXISTS tbl_news_detail""")
         self.curr.execute("""create table tbl_news_detail(
             id int,
+            id_detail_news int,
             title text,
             img_url text,
             time text,

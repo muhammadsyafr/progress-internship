@@ -18,6 +18,12 @@ def spider(link):
     soup = BeautifulSoup(resp_detail.content, features="xml")
 
     #for news_item_detail['img']
+    content = soup.find_all(itemprop="articleBody")
+    # print(content.find_all(p))
+    for h in content:
+        news_item_detail['content'] = h.find_all('p')
+        print(h.find_all('p'))
+
     img_list = soup.find_all("a", class_="popup_link")
     for img in img_list:
         news_item_detail['img'] = img.get('href')
@@ -48,7 +54,7 @@ for item in items:
     news_items.append(news_item)
     spider(item.link.text)  
 
-print(news_items)
+# print(news_items)
 df = pd.DataFrame(news_items)
 f =  'rss.csv'
 df.to_csv(f) 
