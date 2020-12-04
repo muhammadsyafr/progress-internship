@@ -7,7 +7,7 @@ import urllib.request
 from account import *
 
 browser = webdriver.Chrome()
-public_url = 'https://www.instagram.com/stories/cakecaine/'
+public_url = 'https://www.instagram.com/stories/gnfi/'
 
 browser.get(public_url)
 time.sleep(1)
@@ -33,22 +33,20 @@ else:
     btn_login = xpathselector('//*[@id="loginForm"]/div/div[3]/button').click()
     time.sleep(5)
     browser.execute_script("window.history.go(-1)")
-    time.sleep(5)
-    clcktoplay = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div').click()
+    time.sleep(2)
+    clcktoplay = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]').click()
     stories_count = browser.find_elements_by_class_name('_7zQEa')
-    print(len(stories_count))
-    
 
     if len(stories_count) == 1:
-        stories_poster = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/img').get_attribute('srcset')
+        stories_poster = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]/div[1]/div/div/img').get_attribute('srcset')
         url = str(stories_poster)
         data = url.split(" ")
-        # print(data[0])
+        print(data[0])
         dlposter(data[0])
 
         try:
             vid = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]/div[1]/div/div/video')
-            stories_video = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/video/source').get_attribute('src')
+            stories_video = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]/div[1]/div/div/video/source[1]').get_attribute('src')
             url_video = str(stories_video)
             dlvideo(url_video)
             print(url_video)
@@ -56,10 +54,10 @@ else:
             pass
     else:
         while _current_stories <= len(stories_count):
-            stories_poster = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/img').get_attribute('srcset')
+            stories_poster = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]/div[1]/div/div/img').get_attribute('srcset')
             url = str(stories_poster)
             data = url.split(" ")
-            # print(data[0])
+            print(data[0])
             dlposter(data[0])
 
             try:
@@ -71,7 +69,7 @@ else:
             except:
                 pass
 
-            next = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/button[2]').click()
+            next = xpathselector('//*[@id="react-root"]/section/div/div/section/div[2]/button[2]/div').click()
             _current_stories += 1
     
     time.sleep(3)
