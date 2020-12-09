@@ -1,3 +1,3 @@
 account = [
-    'sudutcerita.media', 'sudutcerita123.'
+    'xxxxx', 'xxxxxxx.'
 ]
