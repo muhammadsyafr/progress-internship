@@ -78,7 +78,6 @@ else:
         print(len(stories_count))
         # browser.quit()
     
-
 # try:
 #     nexthighlight = xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button')
 #     action.double_click(nexthighlight).perform()
