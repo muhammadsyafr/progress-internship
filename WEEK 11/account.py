@@ -1,3 +1,3 @@
 account = [
-    'muhammadsyafrzl', 'sayakeren112'
+    'x', 'x'
 ]
