@@ -9,7 +9,7 @@ from account import *
 from download import *
 
 browser = webdriver.Chrome()
-public_url = 'https://www.instagram.com/stories/cnbcindonesia/'
+public_url = 'https://www.instagram.com/stories/pitravelers/'
 
 browser.get(public_url)
 time.sleep(1)
