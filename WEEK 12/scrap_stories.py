@@ -6,10 +6,10 @@ import time
 import json
 
 from account import *
-from download import *
+# from download import *
 
 browser = webdriver.Chrome()
-public_url = 'https://www.instagram.com/stories/pitravelers/'
+public_url = 'https://www.instagram.com/stories/ngertisaham/'
 
 browser.get(public_url)
 time.sleep(1)
@@ -75,7 +75,6 @@ else:
     with open("sample.json", "w") as outfile:  
         json.dump(data_posters, outfile) 
     time.sleep(1)
-    # download()
 
     browser.quit()
 
