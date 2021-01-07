@@ -2,7 +2,7 @@ import json
 import urllib.request
 
 def download():
-    with open("sample.json") as stories_json:
+    with open("highlight.json") as stories_json:
         data = stories_json.read()
         files = json.loads(data)
         check_video_exist =  "vid_url" in data

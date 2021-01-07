@@ -18,8 +18,9 @@ time.sleep(1)
 urlnow = browser.current_url.split("/")
 time.sleep(1)
 
-data_posters = []
-jumlahall_global = 0
+data_highlight = []
+# state for all stories count // sama dengan jumlahall_global
+global_count_stories = 0
 
 def xpathselector(xpath):
     return browser.find_element_by_xpath(xpath)
@@ -48,25 +49,26 @@ if(check_exists_by_class('_54f4m') == True):
     print('private')
 else:
     pathhighlight = f'//*[@id="react-root"]/section/main/div/div[1]/div/div/div/ul/li[{3}]'
+    # check highlight count
     if(check_exists_by_xpath(pathhighlight)):
-        # swipe to right
+        # swipe right & left to check all highlight count
         while check_exists_by_xpath('//*[@id="react-root"]/section/main/div/div[1]/div/button') != False:
             xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button').click()
-
         time.sleep(5)
-
-        #swipe to left
         while check_exists_by_xpath('//*[@id="react-root"]/section/main/div/div[1]/div/button[1]') != False:
             xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button').click()
-        
+
         highlight_count = browser.find_elements_by_class_name('Ckrof')
-        print('jumlah highlight', len(highlight_count))
-        jumlahall = 0
+        print('Jumlah Highlight : ', len(highlight_count))
+        #wrap per highligh_count == jumlahall
+        wrap_perhiglight_count = 0
+
+        #if highlight count lebih dari 7
         if(len(highlight_count) >= 7 ):
+            # buat while untuk ambil stories per highlight
+            print('log : highlight lebih dari 7, butuh di swipe left')
             count = 0
             while (count < 6):
-                # print('before 7')
-                time.sleep(2)
                 currentpath = f'ul.vi798 li:nth-child({count + 3})'
                 WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, currentpath))).click()
                 time.sleep(5)
@@ -75,7 +77,7 @@ else:
                 close = xpathselector('//*[@id="react-root"]/section/div[3]/button/div').click()
                 count += 1
                 time.sleep(2)
-                jumlahall += len(stories_count)
+                wrap_perhiglight_count += len(stories_count)
                 if(count == 7):
                     break
 
@@ -84,13 +86,10 @@ else:
             aftercount = 6
             state = 0
             while (state < (len(highlight_count) - aftercount)):
-                # print('State : ', state)
                 time.sleep(2)
                 if (aftercount + state) == 7:
-                    # print('===== GESER TEROOS ======')
                     xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button').click()
                 if (aftercount + state) == 14:
-                    # print('===== GESER TEROOS ======')
                     xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button').click()
                     time.sleep(2)
                     xpathselector('//*[@id="react-root"]/section/main/div/div[1]/div/button').click()
@@ -100,60 +99,58 @@ else:
                 WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, currentpath))).click()
                 time.sleep(4)
                 stories_count = browser.find_elements_by_class_name('_7zQEa')
-                # print((aftercount + state + 1), len(stories_count))
+                print((aftercount + state + 1), len(stories_count))
                 close = xpathselector('//*[@id="react-root"]/section/div[3]/button/div').click()
                 state += 1
                 time.sleep(2)
-                jumlahall += len(stories_count)
-                jumlahall_global = jumlahall
+                wrap_perhiglight_count += len(stories_count)
+                global_count_stories = wrap_perhiglight_count
                 if(state == (len(highlight_count) - aftercount)):
                     break
-        
+            
+        #if highlight count kurang dari 7
         elif(len(highlight_count) < 7):
-            print('kurang dari 7')
+            print('log : highlight kurang dari 7, tidak usah di swipe')
+            count = 0
+            # ambil stories di dalam highlight 1 1
             count = 0
             while (count < len(highlight_count)):
-                # print('before 7')
                 time.sleep(2)
                 currentpath = f'ul.vi798 li:nth-child({count + 3})'
                 WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, currentpath))).click()
                 time.sleep(5)
                 stories_count = browser.find_elements_by_class_name('_7zQEa')
-                print(count + 1, len(stories_count))
+                time.sleep(1)
                 close = xpathselector('//*[@id="react-root"]/section/div[3]/button/div').click()
-                count += 1
-                time.sleep(2)
-                jumlahall += len(stories_count)
-                jumlahall_global = jumlahall
-
-        elif(len(highlight_count) == 1):
-            print('stories cuma 1')
+                print(count, len(stories_count))  
+                count += 1              
+                wrap_perhiglight_count += len(stories_count)
+                global_count_stories = wrap_perhiglight_count
         
     else: 
         print('tidak ada highlight')
-
+    
 _current_stories = 0
 currentpath = f'ul.vi798 li:nth-child({3})'
-WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, currentpath))).click()
-print('jumlah semua story', jumlahall_global)
+# WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, currentpath))).click()
+browser.find_element_by_css_selector(currentpath).click()
+print('Jumlah Semua Story :', global_count_stories)
+time.sleep(3)
 
-while _current_stories <= jumlahall_global:
+while _current_stories <= global_count_stories:
     if(check_exists_by_xpath('//*[@id="react-root"]/section/div[1]/div/section/div/header/div[2]/div[1]/div/div/div/time') == False):
         break
-    _current_stories += 1
-    print(_current_stories)
     stories_date = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/header/div[2]/div[1]/div/div/div/time').get_attribute('datetime')
     stories_poster = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/img').get_attribute('srcset')
     highlight_name = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/header/div[2]/div[1]/div/div/div/div/a').text 
     url = str(stories_poster)
     data = url.split(" ")
     collect = {}
-    collect['url']    = data[0]
-    collect['date']   = stories_date
-    collect['username'] = sys.argv[1]
+    collect['url']          = data[0]
+    collect['date']         = stories_date
+    collect['username']     = sys.argv[1]
     collect['highlight_name'] = highlight_name
-    print(data[0])
-
+   
     try:
         xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/video')
         stories_video = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/div[1]/div/div/video/source').get_attribute('src')
@@ -162,21 +159,9 @@ while _current_stories <= jumlahall_global:
     except:
         pass
 
-    data_posters.append(collect)
+    data_highlight.append(collect)
     next = xpathselector('//*[@id="react-root"]/section/div[1]/div/section/div/button[2]').click()
+
+with open("highlight1.json", "w") as outfile:  
+    json.dump(data_highlight, outfile) 
     
-
-with open("highlight.json", "w") as outfile:  
-    json.dump(data_posters, outfile) 
-# time.sleep(1)
-
-# print(data_posters)
-
-    
-
-
-
-
-
-
-
